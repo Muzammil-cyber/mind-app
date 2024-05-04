@@ -1,31 +1,47 @@
 import { Button } from "@/components/StyledButton";
-import { Heading1, Heading2, Heading3, Label } from "@/components/StyledText";
-import { Text, View } from "@/components/Themed";
-import { StyleSheet } from "react-native";
+import { Heading1 } from "@/components/StyledText";
+import { View } from "@/components/Themed";
+import Colors from "@/constants/Colors";
+import Texts from "@/constants/Texts";
+import { Link } from "expo-router";
+import { ImageBackground, StyleSheet } from "react-native";
 
 export default function Index() {
   return (
-    <View style={styles.container}>
-      <Text>Index</Text>
-      <Label>Label</Label>
-      <Heading1>H1</Heading1>
-      <Heading2>H2</Heading2>
-      <Heading3>H3</Heading3>
-      <Button variant="danger" onPress={() => console.log("Clicked")}>
-        Hello
-      </Button>
-    </View>
+    <ImageBackground
+      source={require("@/assets/images/background/AuthBack.webp")}
+      // resizeMode="cover"
+      style={styles.image}
+    >
+      <View style={styles.container}>
+        <Heading1 style={styles.title}>Let's Get Started</Heading1>
+        <Link href={"/(auth)/register"} asChild>
+          <Button textSize="l" style={styles.button}>
+            Join Now
+          </Button>
+        </Link>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 16,
+    paddingTop: 64,
+    paddingBottom: 20,
+    backgroundColor: "transparent",
+  },
+  image: {
+    flex: 1,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "bold",
+    fontSize: Texts.size["8xl"],
+    color: Colors.light.text,
+  },
+  button: {
+    width: "100%",
   },
 });

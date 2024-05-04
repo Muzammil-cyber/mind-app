@@ -13,6 +13,7 @@ import {
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "./useColorScheme";
 import { forwardRef } from "react";
+import Texts from "@/constants/Texts";
 
 type ThemeProps = {
   lightColor?: string;
@@ -43,7 +44,7 @@ export function Text(props: TextProps) {
 
   return (
     <DefaultText
-      style={[{ color, fontFamily: "Montserrat_400Regular" }, style]}
+      style={[{ color, fontFamily: Texts.font.regular }, style]}
       {...otherProps}
     />
   );
