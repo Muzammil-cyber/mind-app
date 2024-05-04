@@ -7,10 +7,12 @@ import {
   Text as DefaultText,
   View as DefaultView,
   TextInput as DefualtInput,
+  Pressable as DefualtButton,
 } from "react-native";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "./useColorScheme";
+import { forwardRef } from "react";
 
 type ThemeProps = {
   lightColor?: string;
@@ -39,7 +41,12 @@ export function Text(props: TextProps) {
   const { style, lightColor, darkColor, ...otherProps } = props;
   const color = useThemeColor({ light: lightColor, dark: darkColor }, "text");
 
-  return <DefaultText style={[{ color }, style]} {...otherProps} />;
+  return (
+    <DefaultText
+      style={[{ color, fontFamily: "Montserrat_400Regular" }, style]}
+      {...otherProps}
+    />
+  );
 }
 
 export function View(props: ViewProps) {
@@ -59,6 +66,8 @@ export function TextInput(props: InputProps) {
   return <DefualtInput style={[{ color }, style]} {...otherProps} />;
 }
 
-export function Label(props:TextProps){
-  return <Text {...props} style={{fontWeight: "bold"}}/>
-};
+
+
+
+
+
