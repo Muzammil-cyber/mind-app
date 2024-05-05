@@ -10,18 +10,18 @@ export default {
     tabIconSelected: tintColorLight,
     // button
     primary: '#007bff',
-    secondary: '#6c757d',
+    secondary: '#000',
     success: '#28a745',
     danger: '#dc3545',
     warning: '#ffc107',
     // button text
     buttonText: '#fff',
     // button outline
-    'outline-primary': '#007bff',
-    'outline-secondary': '#000',
-    'outline-success': '#28a745',
-    'outline-danger': '#dc3545',
-    'outline-warning': '#ffc107',
+    // 'outline-primary': '#007bff',
+    // 'outline-secondary': '#000',
+    // 'outline-success': '#28a745',
+    // 'outline-danger': '#dc3545',
+    // 'outline-warning': '#ffc107',
   },
   dark: {
     text: '#fff',
@@ -31,17 +31,17 @@ export default {
     tabIconSelected: tintColorDark,
     // button
     primary: '#007bff',
-    secondary: '#6c757d',
+    secondary: '#fff',
     success: '#28a745',
     danger: '#dc3545',
     warning: '#ffc107',
     // button text
     buttonText: '#fff',
     // button  outline
-    'outline-primary': '#007bff',
-    'outline-secondary': '#fff',
-    'outline-success': '#28a745',
-    'outline-danger': '#dc3545',
-    'outline-warning': '#ffc107',
+    // 'outline-primary': '#007bff',
+    // 'outline-secondary': '#fff',
+    // 'outline-success': '#28a745',
+    // 'outline-danger': '#dc3545',
+    // 'outline-warning': '#ffc107',
   },
 };
