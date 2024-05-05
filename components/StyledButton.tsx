@@ -44,15 +44,8 @@ export const Button = forwardRef<View | null, ButtonProps>((props, ref) => {
           light: lightColor,
           dark: darkColor,
         },
-        // @ts-ignore
-        variant &&
-          ["primary", "secondary", "success", "danger", "warning"].includes(
-            variant
-          )
-          ? `buttonTextOutline${
-              variant.charAt(0).toUpperCase() + variant.slice(1)
-            }`
-          : "buttonTextOutlinePrimary"
+
+        variant ? `outline-${variant}` : "outline-primary"
       )
     : useThemeColor(
         {
