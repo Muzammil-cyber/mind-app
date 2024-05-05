@@ -19,6 +19,7 @@ export type ButtonProps = ThemeProps &
   React.ComponentPropsWithoutRef<typeof DefualtButton> & {
     variant?: ButtonVariant;
     textSize?: ButtonTextSize;
+    outlined?: boolean;
   };
 
 export const Button = forwardRef<View | null, ButtonProps>((props, ref) => {
@@ -29,20 +30,41 @@ export const Button = forwardRef<View | null, ButtonProps>((props, ref) => {
     children,
     variant,
     textSize,
+    outlined,
     ...otherProps
   } = props;
 
-  const backgroundColor = useThemeColor(
+  const color = useThemeColor(
     { light: lightColor, dark: darkColor },
     variant ? variant : "primary"
   );
-  const textColor = useThemeColor(
-    {
-      light: lightColor,
-      dark: darkColor,
-    },
-    "buttonText"
-  );
+  const textColor = outlined
+    ? useThemeColor(
+        {
+          light: lightColor,
+          dark: darkColor,
+        },
+        // @ts-ignore
+        variant &&
+          ["primary", "secondary", "success", "danger", "warning"].includes(
+            variant
+          )
+          ? `buttonTextOutline${
+              variant.charAt(0).toUpperCase() + variant.slice(1)
+            }`
+          : "buttonTextOutlinePrimary"
+      )
+    : useThemeColor(
+        {
+          light: lightColor,
+          dark: darkColor,
+        },
+        "buttonText"
+      );
+
+  const backgroundColor = outlined ? "transparent" : color;
+  const borderColor = outlined ? textColor : "transparent";
+  const borderWidth = outlined ? 1 : 0;
 
   const fontSize = textSize === "s" ? 12 : textSize === "l" ? 20 : 16;
 
@@ -52,10 +74,18 @@ export const Button = forwardRef<View | null, ButtonProps>((props, ref) => {
       {...otherProps}
       style={
         typeof style === "object"
-          ? { backgroundColor, ...defualtStyle.container, ...style }
-          : {
-              backgroundColor,
+          ? {
               ...defualtStyle.container,
+              backgroundColor,
+              borderColor,
+              borderWidth,
+              ...style,
+            }
+          : {
+              ...defualtStyle.container,
+              backgroundColor,
+              borderColor,
+              borderWidth,
             }
       }
     >

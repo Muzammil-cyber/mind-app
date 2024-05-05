@@ -16,6 +16,13 @@ export default {
     warning: '#ffc107',
     // button text
     buttonText: '#fff',
+    // button  outline text
+    buttonTextOutlinePrimary: '#007bff',
+    buttonTextOutlineSecondary: '#000',
+    buttonTextOutlineSuccess: '#28a745',
+    buttonTextOutlineDanger: '#dc3545',
+    buttonTextOutlineWarning: '#ffc107',
+
   },
   dark: {
     text: '#fff',
@@ -31,5 +38,11 @@ export default {
     warning: '#ffc107',
     // button text
     buttonText: '#fff',
+    // button  outline text
+    buttonTextOutlinePrimary: '#007bff',
+    buttonTextOutlineSecondary: '#fff',
+    buttonTextOutlineSuccess: '#28a745',
+    buttonTextOutlineDanger: '#dc3545',
+    buttonTextOutlineWarning: '#ffc107',
   },
 };
