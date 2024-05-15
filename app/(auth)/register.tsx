@@ -6,6 +6,8 @@ import { Button } from "@/components/StyledButton";
 import { useState } from "react";
 import { Link } from "expo-router";
 
+
+
 export default function Register() {
   const [formData, setFormData] = useState({
     email: "",
@@ -48,7 +50,7 @@ export default function Register() {
 
   return (
     <View style={styles.container}>
-      <Heading1>Let&apos;s Join Revolution</Heading1>
+      <Heading1 style={styles.heading}>Let&apos;s Join Revolution</Heading1>
       <DefaultView style={styles.separator} />
       <TextInput
         label="Email Address"
@@ -99,6 +101,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
+  },
+  heading: {
+    textAlign: "center",
   },
   separator: {
     marginVertical: 30,
