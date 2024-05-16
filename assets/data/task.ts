@@ -1,33 +1,104 @@
+import { TaskType } from "@/types/task";
 
-export const Tasks = [
+export const Tasks: TaskType[] = [
     {
-        id: 1,
-        name: "Task 1",
+        id: "1",
+        title: "Task 1",
         description: "Description of Task 1",
         dueAt: new Date("2024-12-31T23:59:59"),
         priority: 'HIGH',
-        madeBy: "John Doe"
+        madeBy: "John Doe",
+        completed: false,
     },
     {
-        id: 2,
-        name: "Task 2",
+        id: "2",
+        title: "Task 2",
         description: "Description of Task 2",
         dueAt: new Date("2024-01-15T12:00:00"),
-        madeBy: "Jane Smith"
+        priority: 'MEDIUM',
+        madeBy: "Jane Smith",
+        completed: false,
     },
     {
-        id: 3,
-        name: "Task 3",
+        id: "3",
+        title: "Task 3",
         description: "Description of Task 3",
         dueAt: new Date("2023-01-31T23:59:59"),
-        madeBy: "John Doe"
+        priority: 'LOW',
+        madeBy: "John Doe",
+        completed: false,
     },
     {
-        id: 4,
-        name: "Task 4",
+        id: "4",
+        title: "Task 4",
         description: "Description of Task 4",
         dueAt: new Date("2023-02-15T12:00:00"),
-        madeBy: "Jane Smith"
-    }
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
     // Add more tasks here if needed
+    {
+        id: "5",
+        title: "Task 5",
+        description: "Description of Task 5",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
+    {
+        id: "6",
+        title: "Task 6",
+        description: "Description of Task 6",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
+    {
+        id: "7",
+        title: "Task 7",
+        description: "Description of Task 7",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
+    {
+        id: "8",
+        title: "Task 8",
+        description: "Description of Task 8",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
+    {
+        id: "9",
+        title: "Task 9",
+        description: "Description of Task 9",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
+    {
+        id: "10",
+        title: "Task 10",
+        description: "Description of Task 10",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    },
+    {
+        id: "11",
+        title: "Task 11",
+        description: "Description of Task 11",
+        dueAt: new Date("2023-02-15T12:00:00"),
+        priority: 'HIGH',
+        madeBy: "Jane Smith",
+        completed: false,
+    }
 ];
