@@ -5,9 +5,7 @@ import {
   ThemeProvider,
 } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-import AppLoading from "expo-app-loading";
 import {
-  useFonts as useFontsMont,
   Montserrat_100Thin,
   Montserrat_200ExtraLight,
   Montserrat_300Light,
@@ -40,7 +38,7 @@ export {
 
 export const unstable_settings = {
   // Ensure that reloading on `/modal` keeps a back button present.
-  initialRouteName: "(tabs)",
+  initialRouteName: "(auth)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -49,11 +47,6 @@ SplashScreen.preventAutoHideAsync();
 export default function RootLayout() {
   const [loaded, error] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
-    ...FontAwesome.font,
-  });
-
-  // Load the Montserrat font family.
-  const [loadedMont, errorMont] = useFontsMont({
     Montserrat_100Thin,
     Montserrat_200ExtraLight,
     Montserrat_300Light,
@@ -72,21 +65,44 @@ export default function RootLayout() {
     Montserrat_700Bold_Italic,
     Montserrat_800ExtraBold_Italic,
     Montserrat_900Black_Italic,
+    ...FontAwesome.font,
   });
+
+  // Load the Montserrat font family.
+  // const [loadedMont, errorMont] = useFontsMont({
+  //   Montserrat_100Thin,
+  //   Montserrat_200ExtraLight,
+  //   Montserrat_300Light,
+  //   Montserrat_400Regular,
+  //   Montserrat_500Medium,
+  //   Montserrat_600SemiBold,
+  //   Montserrat_700Bold,
+  //   Montserrat_800ExtraBold,
+  //   Montserrat_900Black,
+  //   Montserrat_100Thin_Italic,
+  //   Montserrat_200ExtraLight_Italic,
+  //   Montserrat_300Light_Italic,
+  //   Montserrat_400Regular_Italic,
+  //   Montserrat_500Medium_Italic,
+  //   Montserrat_600SemiBold_Italic,
+  //   Montserrat_700Bold_Italic,
+  //   Montserrat_800ExtraBold_Italic,
+  //   Montserrat_900Black_Italic,
+  // });
 
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
-    if (errorMont) throw errorMont;
-  }, [error, errorMont]);
+    // if (errorMont) throw errorMont;
+  }, [error]);
 
   useEffect(() => {
-    if (loaded && loadedMont) {
+    if (loaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, loadedMont]);
+  }, [loaded]);
 
-  if (!loaded && !loadedMont) {
+  if (!loaded) {
     return null;
   }
 

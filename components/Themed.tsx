@@ -61,42 +61,7 @@ export function View(props: ViewProps) {
   return <DefaultView style={[{ backgroundColor }, style]} {...otherProps} />;
 }
 
-export function TextInput(props: InputProps) {
-  const { style, lightColor, darkColor, label, error, ...otherProps } = props;
-  // how to make margin Bottom apply to the error if it exist?
-  return (
-    <>
-      {label && <Label style={{ alignSelf: "flex-start" }}>{label}</Label>}
-      <DefualtInput
-        style={[
-          {
-            width: "100%",
-            borderWidth: 1,
-            borderColor: "gray",
-            backgroundColor: "white",
-            borderRadius: 5,
-            padding: 10,
-            fontFamily: Texts.font.regular,
-            marginTop: label ? 5 : 0,
-            marginBottom: error ? 0 : 20,
-          },
-          style,
-          {
-            borderColor: error ? "red" : "gray",
-          },
-        ]}
-        {...otherProps}
-      />
-      {error && (
-        <Text
-          style={{ color: "red", alignSelf: "flex-start", marginBottom: 20 }}
-        >
-          {error}
-        </Text>
-      )}
-    </>
-  );
-}
+
 
 
 

@@ -1,6 +1,6 @@
-import { Heading1 } from "@/components/StyledText";
+import { TextInput, Heading1 } from "@/components/StyledText";
 import { View as DefaultView } from "react-native";
-import { TextInput, View } from "@/components/Themed";
+import { View } from "@/components/Themed";
 import { StyleSheet } from "react-native";
 import { Button } from "@/components/StyledButton";
 import { useState } from "react";
