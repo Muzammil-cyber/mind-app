@@ -53,7 +53,7 @@ export default function RootLayout() {
   });
 
   // Load the Montserrat font family.
-  const [loadedMont] = useFontsMont({
+  const [loadedMont, errorMont] = useFontsMont({
     Montserrat_100Thin,
     Montserrat_200ExtraLight,
     Montserrat_300Light,
@@ -77,7 +77,8 @@ export default function RootLayout() {
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
-  }, [error]);
+    if (errorMont) throw errorMont;
+  }, [error, errorMont]);
 
   useEffect(() => {
     if (loaded && loadedMont) {
