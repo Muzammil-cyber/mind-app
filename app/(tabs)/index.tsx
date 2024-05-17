@@ -1,6 +1,4 @@
 import { FlatList, StyleSheet } from "react-native";
-
-import EditScreenInfo from "@/components/EditScreenInfo";
 import { Text, View } from "@/components/Themed";
 import { Tasks } from "@/assets/data/task";
 import TaskItem from "@/components/TaskItem";
@@ -35,7 +33,7 @@ export default function TabOneScreen() {
   const theme = useTheme();
   return (
     <View style={styles.container}>
-      {filteredTask ? (
+      {filteredTask.length > 0 ? (
         <FlatList
           data={filteredTask}
           renderItem={({ item }) => <TaskItem task={item} />}
@@ -68,6 +66,7 @@ export default function TabOneScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    paddingHorizontal: 10,
   },
   footer: {
     flex: 1,

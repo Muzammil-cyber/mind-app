@@ -26,7 +26,7 @@ export const Tasks: TaskType[] = [
         dueAt: new Date("2023-01-31T23:59:59"),
         priority: 'LOW',
         madeBy: "John Doe",
-        completed: false,
+        completed: true,
     },
     {
         id: "4",
@@ -72,7 +72,7 @@ export const Tasks: TaskType[] = [
         dueAt: new Date("2023-02-15T12:00:00"),
         priority: 'HIGH',
         madeBy: "Jane Smith",
-        completed: false,
+        completed: true,
     },
     {
         id: "9",

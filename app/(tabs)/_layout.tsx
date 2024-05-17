@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, Tabs } from "expo-router";
-import { Pressable } from "react-native";
+import { Pressable, View } from "react-native";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
@@ -34,19 +34,35 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <TabBarIcon name="tasks" color={color} />,
           headerRight: ({ pressOpacity }) => {
             return (
-              <Link
-                href="/add-task"
+              <View
                 style={{
-                  marginRight: 20,
-                  opacity: pressOpacity,
+                  flex: 1,
+                  flexDirection: "row",
+                  alignItems: "center",
+                  gap: 20,
+                  marginRight: 10,
                 }}
               >
-                <FontAwesome
-                  name="plus-square-o"
-                  color={Colors[colorScheme ?? "light"].text}
-                  size={24}
-                />
-              </Link>
+                <Link
+                  href="/add-task"
+                  style={{
+                    opacity: pressOpacity,
+                  }}
+                >
+                  <FontAwesome
+                    name="plus-square-o"
+                    color={Colors[colorScheme ?? "light"].tint}
+                    size={24}
+                  />
+                </Link>
+                <Link href={"(auth)"} style={{ opacity: pressOpacity }}>
+                  <FontAwesome
+                    name="sign-out"
+                    color={Colors[colorScheme ?? "light"].danger}
+                    size={24}
+                  />
+                </Link>
+              </View>
             );
           },
         }}
@@ -57,6 +73,18 @@ export default function TabLayout() {
           title: "Completed",
           tabBarIcon: ({ color }) => (
             <TabBarIcon name="check-circle" color={color} />
+          ),
+          headerRight: ({ pressOpacity }) => (
+            <Link
+              href={"(auth)"}
+              style={{ opacity: pressOpacity, marginRight: 10 }}
+            >
+              <FontAwesome
+                name="sign-out"
+                color={Colors[colorScheme ?? "light"].danger}
+                size={24}
+              />
+            </Link>
           ),
         }}
       />
