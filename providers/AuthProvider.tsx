@@ -1,30 +1,43 @@
 import { USERS } from "@/assets/data/user";
 import { User } from "@/types/user";
-import { PropsWithChildren, createContext, useContext, useState } from "react";
+import { auth } from "@/utils/firebase.config";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  PropsWithChildren,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type AuthContextType = {
-  user: User | null;
-  login: () => void;
-  logout: () => void;
+  user: typeof auth.currentUser;
+  login: (email: string, password: string) => Promise<void>;
+  logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: () => {},
-  logout: () => {},
+  login: async (email: string, password: string) => {},
+  logout: async () => {},
 });
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState(auth.currentUser);
+  console.log("init", user);
 
-  function login() {
+  async function login(email: string, password: string) {
     // login logic
-    setUser(USERS[0]);
+    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+      // Signed in
+      setUser(userCredential.user);
+    });
   }
 
-  function logout() {
+  async function logout() {
     // logout logic
-    setUser(null);
+    await auth.signOut();
+    setUser(auth.currentUser);
   }
 
   return (

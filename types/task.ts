@@ -6,11 +6,13 @@
 // madeBy: "John Doe",
 // completed: false
 
+import { Timestamp } from "firebase/firestore";
+
 export interface TaskType {
     id: string;
     title: string;
     description: string;
-    dueAt: Date;
+    dueAt: Timestamp;
     priority: 'HIGH' | 'MEDIUM' | 'LOW';
     madeBy: string;
     completed: boolean;

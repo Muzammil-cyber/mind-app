@@ -30,6 +30,9 @@ import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
 
 import { useColorScheme } from "@/components/useColorScheme";
+import { AuthProvider } from "@/providers/AuthProvider";
+import { QueryClientProvider } from "@tanstack/react-query";
+import QueryProvider from "@/providers/QueryProvider";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -90,12 +93,18 @@ function RootLayoutNav() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-        <Stack.Screen name="add-task" options={{ title: "Add Task" }} />
-      </Stack>
-    </ThemeProvider>
+    <AuthProvider>
+      <QueryProvider>
+        <ThemeProvider
+          value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
+        >
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="add-task" options={{ title: "Add Task" }} />
+          </Stack>
+        </ThemeProvider>
+      </QueryProvider>
+    </AuthProvider>
   );
 }

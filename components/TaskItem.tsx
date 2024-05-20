@@ -14,7 +14,7 @@ import { MaterialIcons } from "@expo/vector-icons";
 const TaskItem = ({ task }: { task: TaskType }) => {
   const DueAt = useCallback(() => {
     // When it is Due if -ve return overdue by in seconds/hours/days/months/year?
-    const dueAt = new Date(task.dueAt);
+    const dueAt = new Date(task.dueAt.toDate());
     const now = new Date();
     let diff = dueAt.getTime() - now.getTime();
     const overdue = diff < 0 ? "overdue" : "remaining";

@@ -7,6 +7,8 @@ import { Heading2 } from "@/components/StyledText";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Colors from "@/constants/Colors";
 import useTheme from "@/utils/useTheme";
+import { useTaskList } from "@/api/tasks";
+import { useEffect } from "react";
 
 const FOOTER_KEY = [
   {
@@ -27,16 +29,26 @@ const FOOTER_KEY = [
 ];
 
 export default function TabOneScreen() {
-  const filteredTask: TaskType[] | null = Tasks.filter(
-    (task) => !task.completed
-  );
+  // const filteredTask: TaskType[] | null = Tasks.filter(
+  //   (task) => !task.completed
+  // );
+  const { isLoading, data: filteredTask, error } = useTaskList();
   const theme = useTheme();
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
+
   return (
     <View style={styles.container}>
-      {filteredTask.length > 0 ? (
+      {filteredTask && filteredTask.length > 0 ? (
         <FlatList
           data={filteredTask}
-          renderItem={({ item }) => <TaskItem task={item} />}
+          renderItem={({ item }: { item: TaskType }) => (
+            <TaskItem task={item} />
+          )}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ gap: 10 }}
           ListFooterComponent={() => (

@@ -1,11 +1,12 @@
 import React from "react";
-import { Link, Tabs } from "expo-router";
+import { Link, Redirect, Tabs } from "expo-router";
 import { Pressable, View } from "react-native";
 
 import Colors from "@/constants/Colors";
 import { useColorScheme } from "@/components/useColorScheme";
 import { useClientOnlyValue } from "@/components/useClientOnlyValue";
 import { FontAwesome, FontAwesome5 } from "@expo/vector-icons";
+import { useAuth } from "@/providers/AuthProvider";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 function TabBarIcon(props: {
@@ -17,6 +18,11 @@ function TabBarIcon(props: {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { user, logout } = useAuth();
+
+  if (!user) {
+    return <Redirect href={"(auth)"} />;
+  }
 
   return (
     <Tabs
@@ -55,13 +61,13 @@ export default function TabLayout() {
                     size={24}
                   />
                 </Link>
-                <Link href={"(auth)"} style={{ opacity: pressOpacity }}>
+                <Pressable onPress={logout} style={{ opacity: pressOpacity }}>
                   <FontAwesome
                     name="sign-out"
                     color={Colors[colorScheme ?? "light"].danger}
                     size={24}
                   />
-                </Link>
+                </Pressable>
               </View>
             );
           },

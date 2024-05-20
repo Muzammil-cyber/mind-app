@@ -4,9 +4,12 @@ import { View } from "@/components/Themed";
 import { StyleSheet } from "react-native";
 import { Button } from "@/components/StyledButton";
 import { useState } from "react";
-import { Link } from "expo-router";
+import { Link, useNavigation } from "expo-router";
+import { useAuth } from "@/providers/AuthProvider";
 
 export default function Login() {
+  const [isLoading, setIsLoading] = useState<boolean>();
+  const { login } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -29,11 +32,15 @@ export default function Login() {
     return isValid;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    setIsLoading(true);
     setError({ email: "", password: "" });
     if (validate()) {
-      console.log("Form Submitted");
+      console.log("Here");
+
+      await login(formData.email, formData.password);
     }
+    setIsLoading(false);
   };
 
   return (
@@ -59,7 +66,7 @@ export default function Login() {
         error={error.password}
         autoComplete="password"
       />
-      <Button style={styles.button} onPress={handleSubmit}>
+      <Button style={styles.button} onPress={handleSubmit} disabled={isLoading}>
         Login
       </Button>
       <Link href={"/(auth)/register"} asChild>
