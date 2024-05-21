@@ -1,14 +1,15 @@
 import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
-import { Tasks } from "@/assets/data/task";
+
 import TaskItem from "@/components/TaskItem";
-import { TaskType } from "@/types/task";
+
 import { Heading2 } from "@/components/StyledText";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
-import useTheme from "@/utils/useTheme";
+
 import { useTaskListCompleted } from "@/api/tasks";
 import Center from "@/components/Center";
+import { useColorScheme } from "@/components/useColorScheme";
 
 const FOOTER_KEY = [
   {
@@ -30,7 +31,7 @@ const FOOTER_KEY = [
 
 export default function TabTwoScreen() {
   const { data: filteredTask, isLoading, error } = useTaskListCompleted();
-  const theme = useTheme();
+  const theme = useColorScheme() ?? "light";
   if (isLoading) {
     return (
       <Center>

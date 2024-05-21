@@ -32,10 +32,17 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   async function login(email: string, password: string) {
     // login logic
-    signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-      // Signed in
-      setUser(userCredential.user);
-    });
+    try {
+      await signInWithEmailAndPassword(auth, email, password).then(
+        (userCredential) => {
+          // Signed in
+          setUser(userCredential.user);
+        }
+      );
+    } catch (error) {
+      throw error;
+    }
+    
   }
 
   async function register(email: string, password: string) {

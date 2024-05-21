@@ -1,10 +1,9 @@
 import { StatusBar } from "expo-status-bar";
-import { Platform, ScrollView, StyleSheet } from "react-native";
+import { Platform, Dimensions, StyleSheet } from "react-native";
 import { View } from "@/components/Themed";
 import { Heading2, Label, TextInput } from "@/components/StyledText";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import Colors from "@/constants/Colors";
-import { useColorScheme } from "@/components/useColorScheme";
 import { useState } from "react";
 import { Button } from "@/components/StyledButton";
 import { useTaskCreate } from "@/api/tasks";
@@ -19,6 +18,7 @@ import { useNavigation } from "expo-router";
 export default function ModalScreen() {
   const { mutate: createTask, isPending } = useTaskCreate();
   const navigate = useNavigation();
+  const { height } = Dimensions.get("window");
 
   const [date, setDate] = useState(new Date());
   const [time, setTime] = useState(new Date());
@@ -63,7 +63,7 @@ export default function ModalScreen() {
         title,
         description,
         dueAt: Timestamp.fromDate(
-          new Date(date.setHours(time.getHours(), time.getMinutes()))
+          new Date(date.setHours(time.getHours(), time.getMinutes(),0))
         ),
         madeBy: auth.currentUser?.uid ?? "",
         completed: false,
@@ -89,8 +89,7 @@ export default function ModalScreen() {
   };
 
   return (
-    <View style={styles.container}>
-      {/* <ScrollView> */}
+    <View style={[styles.container, { height }]}>
       <Heading2 style={{ alignSelf: "center" }}>Add your Task here</Heading2>
       <View
         style={styles.separator}
@@ -124,15 +123,17 @@ export default function ModalScreen() {
       </>
 
       <TextInput
-        label="Date"
+        label="Due Date"
         value={date.toDateString()}
         onPress={() => setShowDatePicker(true)}
+        caretHidden
+        disableFullscreenUI
       />
       {showDatePicker && (
         <DateTimePicker
           mode="date"
           value={date}
-          onChange={(e, date) => {
+          onChange={(_, date) => {
             setDate(date ?? new Date());
             setShowDatePicker(false);
             return;
@@ -140,21 +141,24 @@ export default function ModalScreen() {
         />
       )}
       <TextInput
-        label="Time"
+        label="Due Time"
         value={time.toTimeString()}
         onPress={() => setShowTimePicker(true)}
+        disableFullscreenUI
+        caretHidden
       />
       {showTimePicker && (
         <DateTimePicker
           mode="time"
           value={time}
-          onChange={(e, time) => {
+          onChange={(_, time) => {
             setTime(new Date(time ?? new Date()));
             setShowTimePicker(false);
+            return;
           }}
         />
       )}
-      {/* </ScrollView> */}
+
       <Button
         style={styles.submitBtn}
         onPress={handleSubmit}
@@ -170,11 +174,11 @@ export default function ModalScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    // paddingVertical: 20,
+    // flex: 1,
+    // alignItems: "center",
+    // justifyContent: "center",
     paddingHorizontal: 20,
+    paddingTop: 50,
   },
   separator: {
     marginVertical: 10,

@@ -6,6 +6,7 @@ import { Button } from "@/components/StyledButton";
 import { useState } from "react";
 import { Link, useNavigation } from "expo-router";
 import { useAuth } from "@/providers/AuthProvider";
+import Toast from "react-native-toast-message";
 
 export default function Login() {
   const [isLoading, setIsLoading] = useState<boolean>();
@@ -36,7 +37,13 @@ export default function Login() {
     setIsLoading(true);
     setError({ email: "", password: "" });
     if (validate()) {
-      await login(formData.email, formData.password);
+      await login(formData.email, formData.password).catch((e) =>
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: e.message,
+        })
+      );
     }
     setIsLoading(false);
   };
@@ -53,6 +60,7 @@ export default function Login() {
         value={formData.email}
         error={error.email}
         autoComplete="email"
+        inputMode="email"
       />
       <TextInput
         label="Password"
@@ -63,6 +71,7 @@ export default function Login() {
         value={formData.password}
         error={error.password}
         autoComplete="password"
+        inputMode="text"
       />
       <Button style={styles.button} onPress={handleSubmit} disabled={isLoading}>
         Login
