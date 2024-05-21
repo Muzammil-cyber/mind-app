@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet } from "react-native";
+import { ActivityIndicator, FlatList, StyleSheet } from "react-native";
 import { Text, View } from "@/components/Themed";
 import { Tasks } from "@/assets/data/task";
 import TaskItem from "@/components/TaskItem";
@@ -7,6 +7,8 @@ import { Heading2 } from "@/components/StyledText";
 import { MaterialIcons } from "@expo/vector-icons";
 import Colors from "@/constants/Colors";
 import useTheme from "@/utils/useTheme";
+import { useTaskListCompleted } from "@/api/tasks";
+import Center from "@/components/Center";
 
 const FOOTER_KEY = [
   {
@@ -27,13 +29,24 @@ const FOOTER_KEY = [
 ];
 
 export default function TabTwoScreen() {
-  const filteredTask: TaskType[] | null = Tasks.filter(
-    (task) => task.completed
-  );
+  const { data: filteredTask, isLoading, error } = useTaskListCompleted();
   const theme = useTheme();
+  if (isLoading) {
+    return (
+      <Center>
+        <Heading2>
+          <ActivityIndicator size={"small"} style={{ marginRight: 20 }} />
+          Loading...
+        </Heading2>
+      </Center>
+    );
+  }
+  if (error) {
+    return <Text>Error: {error.message}</Text>;
+  }
   return (
     <View style={styles.container}>
-      {filteredTask.length > 0 ? (
+      {filteredTask && filteredTask.length > 0 ? (
         <FlatList
           data={filteredTask}
           renderItem={({ item }) => <TaskItem task={item} />}
@@ -50,10 +63,14 @@ export default function TabTwoScreen() {
           )}
         />
       ) : (
-        <View style={styles.emptyContainer}>
-          <MaterialIcons name="incomplete-circle" size={50} color="black" />
+        <Center>
+          <MaterialIcons
+            name="incomplete-circle"
+            size={50}
+            color={Colors[theme].tabIconSelected}
+          />
           <Heading2 style={styles.emptyTitle}>No Task Completed</Heading2>
-        </View>
+        </Center>
       )}
     </View>
   );
@@ -76,11 +93,5 @@ const styles = StyleSheet.create({
   emptyTitle: {
     alignSelf: "center",
     marginTop: 20,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
   },
 });

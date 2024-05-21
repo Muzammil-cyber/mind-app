@@ -1,17 +1,20 @@
 //import liraries
 import { TaskType } from "@/types/task";
 import React, { useCallback } from "react";
-import { Alert, StyleSheet } from "react-native";
+import { Alert, StyleSheet, useColorScheme } from "react-native";
 import { Heading3 } from "./StyledText";
 import { View, Text } from "./Themed";
 import Colors from "@/constants/Colors";
-import useTheme from "@/utils/useTheme";
 import Texts from "@/constants/Texts";
 import { Button } from "./StyledButton";
 import { MaterialIcons } from "@expo/vector-icons";
+import { useTaskComplete, useTaskDelete } from "@/api/tasks";
+import Toast from "react-native-toast-message";
 
 // create a component
 const TaskItem = ({ task }: { task: TaskType }) => {
+  const { mutate: updateComplete, isPending: isCompleting } = useTaskComplete();
+  const { mutate: deleteTask, isPending: isDeleting } = useTaskDelete();
   const DueAt = useCallback(() => {
     // When it is Due if -ve return overdue by in seconds/hours/days/months/year?
     const dueAt = new Date(task.dueAt.toDate());
@@ -50,24 +53,32 @@ const TaskItem = ({ task }: { task: TaskType }) => {
       ? Colors.light.warning
       : Colors.light.success;
 
-  const deleteTask = () => {
-    Alert.alert("Deleting Task", "Are you sure you want to delete?", [
+  const confirmDelete = () => {
+    Alert.alert("Delete Task", "Are you sure you want to delete this task?", [
       {
         text: "Cancel",
         style: "cancel",
       },
       {
         text: "Delete",
+        onPress: () => deleteTask(task.id),
         style: "destructive",
-        onPress: () => {
-          // Delete Task
-        },
       },
     ]);
   };
-  const completeTask = () => {};
 
-  const theme = useTheme();
+  const completeTask = () => {
+    updateComplete(task.id, {
+      onSuccess: () =>
+        Toast.show({
+          type: "success",
+          text1: "Task Completed",
+          text2: "Task has been completed successfully",
+        }),
+    });
+  };
+
+  const theme = useColorScheme() ?? "light";
   return (
     <View
       style={[
@@ -88,19 +99,21 @@ const TaskItem = ({ task }: { task: TaskType }) => {
       </View>
       <View style={styles.btnContainer}>
         {task.completed ? (
-          <Button variant="danger" outlined onPress={deleteTask}>
+          <Button variant="danger" outlined onPress={confirmDelete}>
             <MaterialIcons
-              name="delete-forever"
+              name={isDeleting ? "hourglass-empty" : "delete"}
               size={24}
               color={Colors.light.danger}
+              disabled={isDeleting}
             />
           </Button>
         ) : (
           <Button variant="success" outlined onPress={completeTask}>
             <MaterialIcons
-              name="check"
+              name={isCompleting ? "hourglass-empty" : "check"}
               size={24}
               color={Colors.light.success}
+              disabled={isCompleting}
             />
           </Button>
         )}
@@ -114,7 +127,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
-    // alignSelf: "stretch",
     width: "100%",
     padding: 10,
     borderWidth: 1,

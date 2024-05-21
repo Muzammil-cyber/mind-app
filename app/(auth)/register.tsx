@@ -5,8 +5,11 @@ import { StyleSheet } from "react-native";
 import { Button } from "@/components/StyledButton";
 import { useState } from "react";
 import { Link } from "expo-router";
+import { useAuth } from "@/providers/AuthProvider";
+import Toast from "react-native-toast-message";
 
 export default function Register() {
+  const { register } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -39,10 +42,16 @@ export default function Register() {
     return isValid;
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setError({ email: "", password: "", confirmPassword: "" });
     if (validate()) {
-      console.log("Form Submitted");
+      await register(formData.email, formData.password).catch((e) =>
+        Toast.show({
+          type: "error",
+          text1: "Error",
+          text2: e.message,
+        })
+      );
     }
   };
 

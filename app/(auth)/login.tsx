@@ -36,8 +36,6 @@ export default function Login() {
     setIsLoading(true);
     setError({ email: "", password: "" });
     if (validate()) {
-      console.log("Here");
-
       await login(formData.email, formData.password);
     }
     setIsLoading(false);

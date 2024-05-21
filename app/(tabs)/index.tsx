@@ -1,14 +1,18 @@
-import { FlatList, StyleSheet } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  RefreshControl,
+  StyleSheet,
+} from "react-native";
 import { Text, View } from "@/components/Themed";
-import { Tasks } from "@/assets/data/task";
 import TaskItem from "@/components/TaskItem";
 import { TaskType } from "@/types/task";
 import { Heading2 } from "@/components/StyledText";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Colors from "@/constants/Colors";
-import useTheme from "@/utils/useTheme";
-import { useTaskList } from "@/api/tasks";
-import { useEffect } from "react";
+import { useTaskListCompleted, useTaskListUncompleted } from "@/api/tasks";
+import Center from "@/components/Center";
+import { useColorScheme } from "@/components/useColorScheme";
 
 const FOOTER_KEY = [
   {
@@ -29,13 +33,20 @@ const FOOTER_KEY = [
 ];
 
 export default function TabOneScreen() {
-  // const filteredTask: TaskType[] | null = Tasks.filter(
-  //   (task) => !task.completed
-  // );
-  const { isLoading, data: filteredTask, error } = useTaskList();
-  const theme = useTheme();
+  const { isLoading, data: Tasks = [], error } = useTaskListUncompleted();
+  const filteredTask: TaskType[] | null = Tasks.filter(
+    (task) => !task.completed
+  );
+  const theme = useColorScheme() ?? "light";
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <Center>
+        <Heading2>
+          <ActivityIndicator size={"small"} style={{ marginRight: 20 }} />
+          Loading...
+        </Heading2>
+      </Center>
+    );
   }
   if (error) {
     return <Text>Error: {error.message}</Text>;
@@ -62,14 +73,14 @@ export default function TabOneScreen() {
           )}
         />
       ) : (
-        <View style={styles.emptyContainer}>
+        <Center>
           <MaterialCommunityIcons
             name="progress-alert"
             size={50}
             color={Colors[theme].tabIconSelected}
           />
           <Heading2 style={styles.emptyTitle}>No Task in Progress</Heading2>
-        </View>
+        </Center>
       )}
     </View>
   );
@@ -92,11 +103,5 @@ const styles = StyleSheet.create({
   emptyTitle: {
     alignSelf: "center",
     marginTop: 20,
-  },
-  emptyContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    height: "100%",
   },
 });

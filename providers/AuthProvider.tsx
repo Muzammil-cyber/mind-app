@@ -1,7 +1,10 @@
 import { USERS } from "@/assets/data/user";
 import { User } from "@/types/user";
 import { auth } from "@/utils/firebase.config";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import {
   PropsWithChildren,
   createContext,
@@ -13,18 +16,19 @@ import {
 type AuthContextType = {
   user: typeof auth.currentUser;
   login: (email: string, password: string) => Promise<void>;
+  register: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
   login: async (email: string, password: string) => {},
+  register: async (email: string, password: string) => {},
   logout: async () => {},
 });
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState(auth.currentUser);
-  console.log("init", user);
 
   async function login(email: string, password: string) {
     // login logic
@@ -34,14 +38,34 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
   }
 
+  async function register(email: string, password: string) {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password).then(
+        (userCredential) => {
+          setUser(userCredential.user);
+        }
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+
+    return unsubscribe;
+  }, []);
+
   async function logout() {
     // logout logic
     await auth.signOut();
-    setUser(auth.currentUser);
+    setUser(null);
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, register, logout }}>
       {children}
     </AuthContext.Provider>
   );

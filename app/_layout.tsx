@@ -33,6 +33,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { AuthProvider } from "@/providers/AuthProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
 import QueryProvider from "@/providers/QueryProvider";
+import Toast from "react-native-toast-message";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -103,6 +104,7 @@ function RootLayoutNav() {
             <Stack.Screen name="(auth)" options={{ headerShown: false }} />
             <Stack.Screen name="add-task" options={{ title: "Add Task" }} />
           </Stack>
+          <Toast />
         </ThemeProvider>
       </QueryProvider>
     </AuthProvider>
